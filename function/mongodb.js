@@ -36,6 +36,7 @@ function serverret(server) {
 }
 
 exports.insertMany = async (server, db_input, collection_input, input) => {
+
   let  url = serverret(server);
   const client = new MongoClient(url);
   await client.connect();
@@ -52,14 +53,14 @@ exports.insertMany = async (server, db_input, collection_input, input) => {
 
 exports.find = async (server, db_input, collection_input, input) => {
 
-
   const  url = serverret(server);
+  console.log(url)
   const client = new MongoClient(url);
   await client.connect();
 
   const db = client.db(db_input);
   const collection = db.collection(collection_input);
-  let res = await collection.find(input).limit(1000).sort({ "_id": -1 }).toArray();
+  let res = await collection.find(input).limit(0).sort({ "_id": -1 }).toArray();
 
   await client.close();
 

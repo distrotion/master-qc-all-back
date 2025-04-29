@@ -76,8 +76,8 @@ router.post('/GET_MATCPLIST', async (req, res) => {
 
   let findP = await mongodb.find(`${headers['server']}`,PATTERN, PATTERN_01, {});
 
-  console.log(findP)
-  console.log(find2)
+  // console.log(findP)
+  // console.log(find2)
 
   for (let i = 0; i < output.length; i++) {
 
