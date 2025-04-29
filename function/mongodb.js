@@ -21,7 +21,7 @@ function serverret(server) {
   } else if (server === 'HES-GAS') {
     output = 'mongodb://172.23.10.73:27017'
   } else if (server === 'HES-PH') {
-    output = 'mongodb://172.23.10.75:27017'
+    output = 'mongodb://172.23.10.39:12020'
   } else if (server === 'HES-PAL') {
     output = 'mongodb://172.23.10.39:12022'
   } else if (server === 'BP12-PAL') {
