@@ -293,9 +293,13 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
   let output = {}
   //-------------------------------------
   console.log(input);
+  console.log(headers['server']);
+  //headers['server']
   if (input['CPorder'] != null && input['MASTERdatalist'] != null && input['editedItem_IC'] != null) {
     let findPATTERN = await mongodb.find(headers['server'],PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
+
     if (findPATTERN.length == 0) {
+
       let out = input['CPorder'];
       let newob = {
         'SEQ': 1,
@@ -344,7 +348,7 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
 
     } else if ('INCOMMING' in findPATTERN[0]) {
 
-
+      console.log("findPATTERN--1");
       PATTERN_create_buff = input
       ans = false
       for (i = 0; i < findPATTERN[0].INCOMMING.length; i++) {
@@ -407,6 +411,7 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         return res.json("ok");
 
       } else {
+      
         let input2 = findPATTERN;
         let out = input['CPorder'];
         let CP = input2[0].CP;
@@ -457,8 +462,10 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
 
       }
 
-    } else if (('INCOMMING' in findPATTERN[0])) {
+    // } else if (('INCOMMING' in findPATTERN[0])) {
+    } else {
 
+      console.log("findPATTERN--2");
       let input2 = findPATTERN;
       let out = input['CPorder'];
       let CP = input2[0].CP;
