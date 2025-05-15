@@ -345,7 +345,41 @@ router.post('/SIGNATURE_GET', async (req, res) => {
 });
 
 
+router.post('/reportset_UPLOAD', async (req, res) => {
+  //-------------------------------------
+  console.log("--ReportSet_UPLOAD--");
+  let input = req.body;
+  let headers = req.headers;
+  let output = 'NOK'
+  //-------------------------------------
+  console.log(input);
 
+  if (input['CP'] != null && input['reportset'] != null ) {
+
+    let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': input['CP'] }, { $set: { 'reportset': input['reportset'] } });
+
+  }
+
+  return res.json(output);
+});
+
+router.post('/logoset_UPLOAD', async (req, res) => {
+  //-------------------------------------
+  console.log("--logoset_UPLOAD--");
+  let input = req.body;
+  let headers = req.headers;
+  let output = 'NOK'
+  //-------------------------------------
+  console.log(input);
+
+  if (input['CP'] != null && input['logoset'] != null ) {
+
+    let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': input['CP'] }, { $set: { 'logoset': input['logoset'] } });
+
+  }
+
+  return res.json(output);
+});
 
 
 module.exports = router;

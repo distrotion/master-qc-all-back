@@ -13,7 +13,8 @@ function serverret(server) {
   if (server === 'BP12-PH') {
     output = 'mongodb://172.23.10.75:27017'
   } else if (server === 'BP12-GAS') {
-    output = 'mongodb://172.23.10.32:27017'
+    // output = 'mongodb://172.23.10.32:27017'
+        output = 'mongodb://172.23.10.99:27017'
   } else if (server === 'GW-GAS') {
     output = 'mongodb://172.23.10.71:27017'
   } else if (server === 'HES-ISN') {
