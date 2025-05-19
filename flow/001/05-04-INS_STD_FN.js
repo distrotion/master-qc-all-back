@@ -342,6 +342,8 @@ router.post('/FINAL_SAVE', async (req, res) => {
 
         "shape": input.editedItem_FN.shape ?? "",
 
+        "CORStype": input.editedItem_FN.CORStype ?? "",
+
       };
 
 
@@ -409,6 +411,7 @@ router.post('/FINAL_SAVE', async (req, res) => {
           "VARZ": input.editedItem_FN.VARZ ?? "",
           "VARI": input.editedItem_FN.VARI ?? "",
           "shape": input.editedItem_FN.shape ?? "",
+          "CORStype": input.editedItem_FN.CORStype ?? "",
         };
 
 
@@ -467,6 +470,7 @@ router.post('/FINAL_SAVE', async (req, res) => {
           "VARZ": input.editedItem_FN.VARZ ?? "",
           "VARI": input.editedItem_FN.VARI ?? "",
           "shape": input.editedItem_FN.shape ?? "",
+          "CORStype": input.editedItem_FN.CORStype ?? "",
         };
         FINAL[n] = newob;
         out = [{ 'CP': CP }, { $set: { 'FINAL': FINAL } }]
@@ -525,6 +529,7 @@ router.post('/FINAL_SAVE', async (req, res) => {
         "VARZ": input.editedItem_FN.VARZ ?? "",
         "VARI": input.editedItem_FN.VARI ?? "",
         "shape": input.editedItem_FN.shape ?? "",
+        "CORStype": input.editedItem_FN.CORStype ?? "",
       }];
 
       let updatePATTERN = await mongodb.update(headers['server'],PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });

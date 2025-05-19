@@ -10,8 +10,8 @@ let masterDB_IC = "master_IC";
 let masterDB_IP = "master_IP";
 let PATTERN = "PATTERN";
 //
-let Auth  = 'MASTER_QC_USER';
-let user  = 'USER';
+let Auth = 'MASTER_QC_USER';
+let user = 'USER';
 //
 let GRAPH_TABLE = "GRAPH_TABLE";
 let TYPE = "TYPE";
@@ -59,27 +59,7 @@ router.post('/GET_MATCP_DATA', async (req, res) => {
   //-------------------------------------
   console.log(input);
 
-  let findTYPE_FN = await mongodb.find(headers['server'], masterDB_FN, TYPE, {});
-  let findITEMs_FN = await mongodb.find(headers['server'], masterDB_FN, ITEMs, {});
-  let findCALCULATE_FN = await mongodb.find(headers['server'], masterDB_FN, CALCULATE, {});
-  let findMACHINE_FN = await mongodb.find(headers['server'], masterDB_FN, MACHINE, {});
-  let findUNIT_FN = await mongodb.find(headers['server'], masterDB_FN, UNIT, {});
-  let findSPECIFICATION_FN = await mongodb.find(headers['server'], masterDB_FN, SPECIFICATION, {});
 
-
-  let findTYPE_IC = await mongodb.find(headers['server'], masterDB_IC, TYPE, {});
-  let findITEMs_IC = await mongodb.find(headers['server'], masterDB_IC, ITEMs, {});
-  let findCALCULATE_IC = await mongodb.find(headers['server'], masterDB_IC, CALCULATE, {});
-  let findMACHINE_IC = await mongodb.find(headers['server'], masterDB_IC, MACHINE, {});
-  let findUNIT_IC = await mongodb.find(headers['server'], masterDB_IC, UNIT, {});
-  let findSPECIFICATION_IC = await mongodb.find(headers['server'], masterDB_IC, SPECIFICATION, {});
-
-  let findTYPE_IP = await mongodb.find(headers['server'], masterDB_IP, TYPE, {});
-  let findITEMs_IP = await mongodb.find(headers['server'], masterDB_IP, ITEMs, {});
-  let findCALCULATE_IP = await mongodb.find(headers['server'], masterDB_IP, CALCULATE, {});
-  let findMACHINE_IP = await mongodb.find(headers['server'], masterDB_IP, MACHINE, {});
-  let findUNIT_IP = await mongodb.find(headers['server'], masterDB_IP, UNIT, {});
-  let findSPECIFICATION_IP = await mongodb.find(headers['server'], masterDB_IP, SPECIFICATION, {});
 
 
   // let findTYPE_IC = await mongodb.find(headers['server'],masterDB_IC, TYPE, {});
@@ -107,6 +87,28 @@ router.post('/GET_MATCP_DATA', async (req, res) => {
 
 
     if (output.length > 0) {
+
+      let findTYPE_FN = await mongodb.find(headers['server'], masterDB_FN, TYPE, {});
+      let findITEMs_FN = await mongodb.find(headers['server'], masterDB_FN, ITEMs, {});
+      let findCALCULATE_FN = await mongodb.find(headers['server'], masterDB_FN, CALCULATE, {});
+      let findMACHINE_FN = await mongodb.find(headers['server'], masterDB_FN, MACHINE, {});
+      let findUNIT_FN = await mongodb.find(headers['server'], masterDB_FN, UNIT, {});
+      let findSPECIFICATION_FN = await mongodb.find(headers['server'], masterDB_FN, SPECIFICATION, {});
+
+      let findTYPE_IC = await mongodb.find(headers['server'], masterDB_IC, TYPE, {});
+      let findITEMs_IC = await mongodb.find(headers['server'], masterDB_IC, ITEMs, {});
+      let findCALCULATE_IC = await mongodb.find(headers['server'], masterDB_IC, CALCULATE, {});
+      let findMACHINE_IC = await mongodb.find(headers['server'], masterDB_IC, MACHINE, {});
+      let findUNIT_IC = await mongodb.find(headers['server'], masterDB_IC, UNIT, {});
+      let findSPECIFICATION_IC = await mongodb.find(headers['server'], masterDB_IC, SPECIFICATION, {});
+
+      let findTYPE_IP = await mongodb.find(headers['server'], masterDB_IP, TYPE, {});
+      let findITEMs_IP = await mongodb.find(headers['server'], masterDB_IP, ITEMs, {});
+      let findCALCULATE_IP = await mongodb.find(headers['server'], masterDB_IP, CALCULATE, {});
+      let findMACHINE_IP = await mongodb.find(headers['server'], masterDB_IP, MACHINE, {});
+      let findUNIT_IP = await mongodb.find(headers['server'], masterDB_IP, UNIT, {});
+      let findSPECIFICATION_IP = await mongodb.find(headers['server'], masterDB_IP, SPECIFICATION, {});
+
       output[0][`findTYPE_FN`] = findTYPE_FN;
       output[0][`findITEMs_FN`] = findITEMs_FN;
       output[0][`findCALCULATE_FN`] = findCALCULATE_FN;
@@ -299,14 +301,14 @@ router.post('/SIGNATURE_UPLOAD', async (req, res) => {
   console.log(input);
   if (input['ID'] != null && input['SIGNATURE'] != null) {
 
-    let findPATTERN = await mongodbs.find(Auth,user,{"ID":input['ID']});
+    let findPATTERN = await mongodbs.find(Auth, user, { "ID": input['ID'] });
     console.log(findPATTERN);
     if (findPATTERN.length == 0) {
 
       return res.json("nok");
 
     } else {
-      let updatePATTERN = await mongodbs.update( Auth,user, { "ID":input['ID'] }, { $set: { 'SIGNATURE': input['SIGNATURE']} });
+      let updatePATTERN = await mongodbs.update(Auth, user, { "ID": input['ID'] }, { $set: { 'SIGNATURE': input['SIGNATURE'] } });
       return res.json("ok");
     }
 
@@ -327,7 +329,7 @@ router.post('/SIGNATURE_GET', async (req, res) => {
 
   if (input['ID'] != null) {
 
-    let findPATTERN = await mongodbs.find(Auth,user,{"ID":input['ID']});
+    let findPATTERN = await mongodbs.find(Auth, user, { "ID": input['ID'] });
 
     if (findPATTERN.length == 0) {
 
@@ -335,7 +337,7 @@ router.post('/SIGNATURE_GET', async (req, res) => {
 
     } else {
       output = {
-        "SIGNATURE":findPATTERN[0]['SIGNATURE'],
+        "SIGNATURE": findPATTERN[0]['SIGNATURE'],
       }
     }
 
@@ -354,7 +356,7 @@ router.post('/reportset_UPLOAD', async (req, res) => {
   //-------------------------------------
   console.log(input);
 
-  if (input['CP'] != null && input['reportset'] != null ) {
+  if (input['CP'] != null && input['reportset'] != null) {
 
     let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': input['CP'] }, { $set: { 'reportset': input['reportset'] } });
 
@@ -372,7 +374,7 @@ router.post('/logoset_UPLOAD', async (req, res) => {
   //-------------------------------------
   console.log(input);
 
-  if (input['CP'] != null && input['logoset'] != null ) {
+  if (input['CP'] != null && input['logoset'] != null) {
 
     let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': input['CP'] }, { $set: { 'logoset': input['logoset'] } });
 
