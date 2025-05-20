@@ -139,7 +139,7 @@ router.post('/NEW_GRAPH', async (req, res) => {
 
       // let out = [out1, { $set: out2 }];
 
-      let updatePATTERN = await mongodb.update(`${headers['server']}`, PATTERN, GRAPH_TABLE, {  "NO": input['NO']}, {
+      let updatePATTERN = await mongodb.update(`${headers['server']}`, PATTERN, GRAPH_TABLE, {"NO": input['NO']}, {
         $set: {
           'GT1': input['GT1'] ?? "",
           'GT2': input['GT2'] ?? "",

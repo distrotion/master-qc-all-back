@@ -94,6 +94,7 @@ exports.update = async (server, db_input, collection_input, input1, input2) => {
   await client.connect();
 
   const db = client.db(db_input);
+
   const collection = db.collection(collection_input);
   let res = await collection.updateOne(input1, input2);
   //updateOne({ a: 3 }, { $set: { b: 1 } });
