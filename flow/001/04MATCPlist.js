@@ -109,10 +109,10 @@ router.post('/graph_list', async (req, res) => {
   let output = []
   //-------------------------------------
   //${headers['server']}
-  let find1 = await mongodb.find(`GW-GAS`, PATTERN, GRAPH_TABLE, {});
+  let find1 = await mongodb.find(`${headers['server']}`, PATTERN, GRAPH_TABLE, {});
 
   output = find1;
-  
+
 
   // console.log(output);
 
@@ -125,20 +125,22 @@ router.post('/NEW_GRAPH', async (req, res) => {
   let input = req.body;
   let headers = req.headers;
   //-------------------------------------
-  let output = []
+  let output = "NOK"
   //-------------------------------------
+
   if (input['NO'] != undefined) {
     //${headers['server']}
-    let find1 = await mongodb.find(`GW-GAS`, PATTERN, GRAPH_TABLE, {});
+    let find1 = await mongodb.find(`${headers['server']}`, PATTERN, GRAPH_TABLE, {"NO":input['NO']});
     if (find1.length > 0) {
       //
-      let out2 = input
-      let out1 = { NO: input['NO'] }
+      // console.log("---------1");
 
-      let out = [out1, { $set: out2 }];
-      let updatePATTERN = await mongodb.update(`GW-GAS`, PATTERN, GRAPH_TABLE, { out1 }, {
+      let out1 = { "NO": input['NO'] }
+
+      // let out = [out1, { $set: out2 }];
+
+      let updatePATTERN = await mongodb.update(`${headers['server']}`, PATTERN, GRAPH_TABLE, {  "NO": input['NO']}, {
         $set: {
-
           'GT1': input['GT1'] ?? "",
           'GT2': input['GT2'] ?? "",
           'GT3': input['GT3'] ?? "",
@@ -161,8 +163,10 @@ router.post('/NEW_GRAPH', async (req, res) => {
           'GT20': input['GT20'] ?? "",
         }
       });
+    output = "OK"
     } else {
       //
+      console.log("---------2");
       let neworder = {
         "NO": input['NO'],
         'GT1': input['GT1'] ?? "",
@@ -186,7 +190,8 @@ router.post('/NEW_GRAPH', async (req, res) => {
         'GT19': input['GT19'] ?? "",
         'GT20': input['GT20'] ?? "",
       };
-      let updatePATTERN = await mongodb.insertMany(`GW-GAS`, PATTERN, GRAPH_TABLE, [neworder]);
+      let updatePATTERN = await mongodb.insertMany(`${headers['server']}`, PATTERN, GRAPH_TABLE, [neworder]);
+      output = "OK"
     }
   }
 

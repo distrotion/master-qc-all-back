@@ -140,6 +140,7 @@ router.post('/GET_MATCP_DATA', async (req, res) => {
   // output[0][`findMACHINE_IC`] = findMACHINE_IC;
   // output[0][`findUNIT_IC`] = findUNIT_IC;
   // output[0][`findSPECIFICATION_IC`] = findSPECIFICATION_IC;
+  // 
 
   return res.json(output);
 });
