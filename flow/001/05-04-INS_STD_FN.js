@@ -334,6 +334,7 @@ router.post('/FINAL_SAVE', async (req, res) => {
         "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
         "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
         "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+        "SPIC": input.editedItem_FN.SPIC ?? "",
 
         "VARX": input.editedItem_FN.VARX ?? "",
         "VARY": input.editedItem_FN.VARY ?? "",
@@ -405,6 +406,7 @@ router.post('/FINAL_SAVE', async (req, res) => {
           "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
           "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
           "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+          "SPIC": input.editedItem_FN.SPIC ?? "",
 
           "VARX": input.editedItem_FN.VARX ?? "",
           "VARY": input.editedItem_FN.VARY ?? "",
@@ -464,6 +466,7 @@ router.post('/FINAL_SAVE', async (req, res) => {
           "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
           "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
           "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+          "SPIC": input.editedItem_FN.SPIC ?? "",
 
           "VARX": input.editedItem_FN.VARX ?? "",
           "VARY": input.editedItem_FN.VARY ?? "",
@@ -523,6 +526,7 @@ router.post('/FINAL_SAVE', async (req, res) => {
         "SRAWDATA": input.editedItem_FN.SRAWDATA ?? "",
         "SCMARKTYPE": input.editedItem_FN.SCMARKTYPE ?? "",
         "SUMDATATEXT": input.editedItem_FN.SUMDATATEXT ?? "",
+        "SPIC": input.editedItem_FN.SPIC ?? "",
 
         "VARX": input.editedItem_FN.VARX ?? "",
         "VARY": input.editedItem_FN.VARY ?? "",
