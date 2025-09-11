@@ -8,6 +8,7 @@ let masterDB = "master_FN";
 let PATTERN = "PATTERN";
 //
 let GRAPH_TABLE = "GRAPH_TABLE";
+let GRAPH_TABLE_CONTROL = "GRAPH_TABLE_CONTROL";
 let TYPE = "TYPE";
 let UNIT = "UNIT";
 let ITEMs = "ITEMs";
@@ -130,7 +131,7 @@ router.post('/NEW_GRAPH', async (req, res) => {
 
   if (input['NO'] != undefined) {
     //${headers['server']}
-    let find1 = await mongodb.find(`${headers['server']}`, PATTERN, GRAPH_TABLE, {"NO":input['NO']});
+    let find1 = await mongodb.find(`${headers['server']}`, PATTERN, GRAPH_TABLE, { "NO": input['NO'] });
     if (find1.length > 0) {
       //
       // console.log("---------1");
@@ -139,7 +140,7 @@ router.post('/NEW_GRAPH', async (req, res) => {
 
       // let out = [out1, { $set: out2 }];
 
-      let updatePATTERN = await mongodb.update(`${headers['server']}`, PATTERN, GRAPH_TABLE, {"NO": input['NO']}, {
+      let updatePATTERN = await mongodb.update(`${headers['server']}`, PATTERN, GRAPH_TABLE, { "NO": input['NO'] }, {
         $set: {
           'GT1': input['GT1'] ?? "",
           'GT2': input['GT2'] ?? "",
@@ -163,7 +164,7 @@ router.post('/NEW_GRAPH', async (req, res) => {
           'GT20': input['GT20'] ?? "",
         }
       });
-    output = "OK"
+      output = "OK"
     } else {
       //
       console.log("---------2");
@@ -200,6 +201,192 @@ router.post('/NEW_GRAPH', async (req, res) => {
   return res.json(output);
 });
 
+
+router.post('/NEW_GRAPH_CONTROL', async (req, res) => {
+  //-------------------------------------
+  console.log("--NEW_GRAPH_CONTROL--");
+  let input = req.body;
+  let headers = req.headers;
+  //-------------------------------------
+  let output = "NOK"
+  //-------------------------------------
+
+  if (input['NO'] != undefined) {
+    //${headers['server']}
+    let find1 = await mongodb.find(`${headers['server']}`, PATTERN, GRAPH_TABLE_CONTROL, { "NO": input['NO'] });
+    if (find1.length > 0) {
+      //
+      // console.log("---------1");
+
+      let out1 = { "NO": input['NO'] }
+
+      // let out = [out1, { $set: out2 }];
+
+      let updatePATTERN = await mongodb.update(`${headers['server']}`, PATTERN, GRAPH_TABLE_CONTROL, { "NO": input['NO'] }, {
+        $set: {
+          'GT01H': input['GT01H'] ?? "",
+          'GT02H': input['GT02H'] ?? "",
+          'GT03H': input['GT03H'] ?? "",
+          'GT04H': input['GT04H'] ?? "",
+          'GT05H': input['GT05H'] ?? "",
+          'GT06H': input['GT06H'] ?? "",
+          'GT07H': input['GT07H'] ?? "",
+          'GT08H': input['GT08H'] ?? "",
+          'GT09H': input['GT09H'] ?? "",
+          'GT10H': input['GT10H'] ?? "",
+          'GT11H': input['GT11H'] ?? "",
+          'GT12H': input['GT12H'] ?? "",
+          'GT13H': input['GT13H'] ?? "",
+          'GT14H': input['GT14H'] ?? "",
+          'GT15H': input['GT15H'] ?? "",
+          'GT16H': input['GT16H'] ?? "",
+          'GT17H': input['GT17H'] ?? "",
+          'GT18H': input['GT18H'] ?? "",
+          'GT19H': input['GT19H'] ?? "",
+          'GT20H': input['GT20H'] ?? "",
+          //
+          'GT01L': input['GT01L'] ?? "",
+          'GT02L': input['GT02L'] ?? "",
+          'GT03L': input['GT03L'] ?? "",
+          'GT04L': input['GT04L'] ?? "",
+          'GT05L': input['GT05L'] ?? "",
+          'GT06L': input['GT06L'] ?? "",
+          'GT07L': input['GT07L'] ?? "",
+          'GT08L': input['GT08L'] ?? "",
+          'GT09L': input['GT09L'] ?? "",
+          'GT10L': input['GT10L'] ?? "",
+          'GT11L': input['GT11L'] ?? "",
+          'GT12L': input['GT12L'] ?? "",
+          'GT13L': input['GT13L'] ?? "",
+          'GT14L': input['GT14L'] ?? "",
+          'GT15L': input['GT15L'] ?? "",
+          'GT16L': input['GT16L'] ?? "",
+          'GT17L': input['GT17L'] ?? "",
+          'GT18L': input['GT18L'] ?? "",
+          'GT19L': input['GT19L'] ?? "",
+          'GT20L': input['GT20L'] ?? "",
+          //
+          'GT01POINT': input['GT01POINT'] ?? "",
+          'GT02POINT': input['GT02POINT'] ?? "",
+          'GT03POINT': input['GT03POINT'] ?? "",
+          'GT04POINT': input['GT04POINT'] ?? "",
+          'GT05POINT': input['GT05POINT'] ?? "",
+          'GT06POINT': input['GT06POINT'] ?? "",
+          'GT07POINT': input['GT07POINT'] ?? "",
+          'GT08POINT': input['GT08POINT'] ?? "",
+          'GT09POINT': input['GT09POINT'] ?? "",
+          'GT10POINT': input['GT10POINT'] ?? "",
+          'GT11POINT': input['GT11POINT'] ?? "",
+          'GT12POINT': input['GT12POINT'] ?? "",
+          'GT13POINT': input['GT13POINT'] ?? "",
+          'GT14POINT': input['GT14POINT'] ?? "",
+          'GT15POINT': input['GT15POINT'] ?? "",
+          'GT16POINT': input['GT16POINT'] ?? "",
+          'GT17POINT': input['GT17POINT'] ?? "",
+          'GT18POINT': input['GT18POINT'] ?? "",
+          'GT19POINT': input['GT19POINT'] ?? "",
+          'GT20POINT': input['GT20POINT'] ?? "",
+
+        }
+      });
+      output = "OK"
+    } else {
+      //
+      console.log("---------2");
+      let neworder = {
+        "NO": input['NO'],
+        'GT01H': input['GT01H'] ?? "",
+        'GT02H': input['GT02H'] ?? "",
+        'GT03H': input['GT03H'] ?? "",
+        'GT04H': input['GT04H'] ?? "",
+        'GT05H': input['GT05H'] ?? "",
+        'GT06H': input['GT06H'] ?? "",
+        'GT07H': input['GT07H'] ?? "",
+        'GT08H': input['GT08H'] ?? "",
+        'GT09H': input['GT09H'] ?? "",
+        'GT10H': input['GT10H'] ?? "",
+        'GT11H': input['GT11H'] ?? "",
+        'GT12H': input['GT12H'] ?? "",
+        'GT13H': input['GT13H'] ?? "",
+        'GT14H': input['GT14H'] ?? "",
+        'GT15H': input['GT15H'] ?? "",
+        'GT16H': input['GT16H'] ?? "",
+        'GT17H': input['GT17H'] ?? "",
+        'GT18H': input['GT18H'] ?? "",
+        'GT19H': input['GT19H'] ?? "",
+        'GT20H': input['GT20H'] ?? "",
+        //
+        'GT01L': input['GT01L'] ?? "",
+        'GT02L': input['GT02L'] ?? "",
+        'GT03L': input['GT03L'] ?? "",
+        'GT04L': input['GT04L'] ?? "",
+        'GT05L': input['GT05L'] ?? "",
+        'GT06L': input['GT06L'] ?? "",
+        'GT07L': input['GT07L'] ?? "",
+        'GT08L': input['GT08L'] ?? "",
+        'GT09L': input['GT09L'] ?? "",
+        'GT10L': input['GT10L'] ?? "",
+        'GT11L': input['GT11L'] ?? "",
+        'GT12L': input['GT12L'] ?? "",
+        'GT13L': input['GT13L'] ?? "",
+        'GT14L': input['GT14L'] ?? "",
+        'GT15L': input['GT15L'] ?? "",
+        'GT16L': input['GT16L'] ?? "",
+        'GT17L': input['GT17L'] ?? "",
+        'GT18L': input['GT18L'] ?? "",
+        'GT19L': input['GT19L'] ?? "",
+        'GT20L': input['GT20L'] ?? "",
+        //
+        'GT01POINT': input['GT01POINT'] ?? "",
+        'GT02POINT': input['GT02POINT'] ?? "",
+        'GT03POINT': input['GT03POINT'] ?? "",
+        'GT04POINT': input['GT04POINT'] ?? "",
+        'GT05POINT': input['GT05POINT'] ?? "",
+        'GT06POINT': input['GT06POINT'] ?? "",
+        'GT07POINT': input['GT07POINT'] ?? "",
+        'GT08POINT': input['GT08POINT'] ?? "",
+        'GT09POINT': input['GT09POINT'] ?? "",
+        'GT10POINT': input['GT10POINT'] ?? "",
+        'GT11POINT': input['GT11POINT'] ?? "",
+        'GT12POINT': input['GT12POINT'] ?? "",
+        'GT13POINT': input['GT13POINT'] ?? "",
+        'GT14POINT': input['GT14POINT'] ?? "",
+        'GT15POINT': input['GT15POINT'] ?? "",
+        'GT16POINT': input['GT16POINT'] ?? "",
+        'GT17POINT': input['GT17POINT'] ?? "",
+        'GT18POINT': input['GT18POINT'] ?? "",
+        'GT19POINT': input['GT19POINT'] ?? "",
+        'GT20POINT': input['GT20POINT'] ?? "",
+      };
+      let updatePATTERN = await mongodb.insertMany(`${headers['server']}`, PATTERN, GRAPH_TABLE_CONTROL, [neworder]);
+      output = "OK"
+    }
+  }
+
+
+
+  return res.json(output);
+});
+
+
+router.post('/GRAPHcontrol_list', async (req, res) => {
+  //-------------------------------------
+  console.log("--GRAPHcontrol_list--");
+  let input = req.body;
+  let headers = req.headers;
+  //-------------------------------------
+  let output = []
+  //-------------------------------------
+  //${headers['server']}
+  let find1 = await mongodb.find(`${headers['server']}`, PATTERN, GRAPH_TABLE_CONTROL, {});
+
+  output = find1;
+
+
+  // console.log(output);
+
+  return res.json(output);
+});
 
 
 module.exports = router;
