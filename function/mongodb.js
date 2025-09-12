@@ -87,6 +87,53 @@ exports.findsome = async (server, db_input, collection_input, input) => {
   return res;
 };
 
+exports.findallC = async (server, db_input, collection_input, input) => {
+
+  const  url = serverret(server);
+  console.log(url)
+  const client = new MongoClient(url);
+  await client.connect();
+
+  
+
+  // const db = client.db(db_input);
+
+  // const collection = db.collection(collection_input);
+  // // let res = await collection.find(input).limit(0).sort({ "_id": -1 }).toArray();
+  // let res = await collection.find({}).toArray();
+
+  let res = {}
+
+  const db = client.db(db_input); // change to your database name
+
+    // 1. Get all collections
+    const collections = await db.listCollections().toArray();
+
+    // 2. Loop through collections and get documents
+    for (const coll of collections) {
+      const collection = db.collection(coll.name);
+      const documents = await collection.find({}).toArray(); // fetch all docs
+
+      console.log(`\nCollection: ${coll.name}`);
+      console.log(documents);
+      res[coll.name] =  documents
+
+       
+    }
+
+
+
+  await client.close();
+
+
+
+  
+  // console.log(serverret(server));
+  // let res = [];
+
+  return res;
+};
+
 exports.update = async (server, db_input, collection_input, input1, input2) => {
 
   let  url = serverret(server);

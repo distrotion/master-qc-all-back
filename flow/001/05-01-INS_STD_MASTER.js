@@ -145,6 +145,96 @@ router.post('/GET_MATCP_DATA', async (req, res) => {
   return res.json(output);
 });
 
+router.post('/GET_MATCP_DATA_OTM01', async (req, res) => {
+  //-------------------------------------
+  console.log("--GET_MATCP_DATA_OTM01--");
+  let input = req.body;
+  let headers = req.headers;
+  let output = []
+  //-------------------------------------
+  console.log(input);
+
+
+
+
+  // let findTYPE_IC = await mongodb.find(headers['server'],masterDB_IC, TYPE, {});
+  // let findITEMs_IC = await mongodb.find(headers['server'],masterDB_IC, ITEMs, {});
+  // let findCALCULATE_IC = await mongodb.find(headers['server'],masterDB_IC, CALCULATE, {});
+  // let findMACHINE_IC = await mongodb.find(headers['server'],masterDB_IC, MACHINE, {});
+  // let findUNIT_IC = await mongodb.find(headers['server'],masterDB_IC, UNIT, {});
+  // let findSPECIFICATION_IC = await mongodb.find(headers['server'],masterDB_IC, SPECIFICATION, {});
+
+
+
+
+  if (input['MATCP'] != undefined && input['MATCP'] != '' && input['MATCP'] != '-') {
+    let find2 = await mongodb.find(headers['server'], PATTERN, PATTERN_01, { "CP": `${input['MATCP']}` });
+    // console.log(find2);
+    if (find2.length > 0) {
+      output = find2;
+    } else {
+      // output = [{
+      //   "CP": input['MATCP'],
+      // }]
+    }
+
+    // console.log(find2[0]['reportset']);
+
+
+    if (output.length > 0) {
+
+      let findTYPE_FN = await mongodb.findallC(headers['server'], masterDB_FN, "x", {});
+
+
+      let findTYPE_IC = await mongodb.findallC(headers['server'], masterDB_IC, "x", {});
+
+
+      let findTYPE_IP = await mongodb.findallC(headers['server'], masterDB_IP, "x", {});
+
+      let GRAPH_STD = await mongodb.find(headers['server'], PATTERN, "GRAPH_TABLE_CONTROL", {});
+      let GRAPH_TABLE = await mongodb.find(headers['server'], PATTERN, "GRAPH_TABLE", {});
+
+
+      output[0][`findTYPE_FN`] = findTYPE_FN['TYPE'];
+      output[0][`findITEMs_FN`] = findTYPE_FN['ITEMs'];
+      output[0][`findCALCULATE_FN`] = findTYPE_FN['CALCULATE'];
+      output[0][`findMACHINE_FN`] = findTYPE_FN['MACHINE'];
+      output[0][`findUNIT_FN`] = findTYPE_FN['UNIT'];
+      output[0][`findSPECIFICATION_FN`] = findTYPE_FN['SPECIFICATION'];
+
+      output[0][`findTYPE_IC`] = findTYPE_IC['TYPE'];
+      output[0][`findITEMs_IC`] = findTYPE_IC['ITEMs'];
+      output[0][`findCALCULATE_IC`] = findTYPE_IC['CALCULATE'];
+      output[0][`findMACHINE_IC`] = findTYPE_IC['MACHINE'];
+      output[0][`findUNIT_IC`] = findTYPE_IC['UNIT'];
+      output[0][`findSPECIFICATION_IC`] = findTYPE_IC['SPECIFICATION'];
+
+      output[0][`findTYPE_IP`] = findTYPE_IP['TYPE'];
+      output[0][`findITEMs_IP`] = findTYPE_IP['ITEMs'];
+      output[0][`findCALCULATE_IP`] = findTYPE_IP['CALCULATE'];
+      output[0][`findMACHINE_IP`] = findTYPE_IP['MACHINE'];
+      output[0][`findUNIT_IP`] = findTYPE_IP['UNIT'];
+      output[0][`findSPECIFICATION_IP`] = findTYPE_IP['SPECIFICATION'];
+
+
+      output[0][`GRAPH_STD`] = GRAPH_STD;
+      output[0][`GRAPH_TABLE`] = GRAPH_TABLE;
+    }
+  }
+
+
+
+  // output[0][`findTYPE_IC`] = findTYPE_IC;
+  // output[0][`findITEMs_IC`] = findITEMs_IC;
+  // output[0][`findCALCULATE_IC`] = findCALCULATE_IC;
+  // output[0][`findMACHINE_IC`] = findMACHINE_IC;
+  // output[0][`findUNIT_IC`] = findUNIT_IC;
+  // output[0][`findSPECIFICATION_IC`] = findSPECIFICATION_IC;
+  // 
+
+  return res.json(output);
+});
+
 router.post('/GET_MATCP_SETDATA', async (req, res) => {
   //-------------------------------------
   console.log("--GET_MATCP_SETDATA--");

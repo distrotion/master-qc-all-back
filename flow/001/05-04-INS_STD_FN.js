@@ -36,11 +36,11 @@ router.post('/INSPECTION_FINAL_GET_STEP1', async (req, res) => {
   console.log("--INSPECTION_FINAL_GET_STEP1--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   output2 = [];
   //-------------------------------------
 
-  let find2 = await mongodb.find(headers['server'],masterDB, ITEMs, { "activeid": "active_id" });
+  let find2 = await mongodb.find(headers['server'], masterDB, ITEMs, { "activeid": "active_id" });
   if (find2.length > 0) {
     for (i = 0; i < find2.length; i++) {
       output2.push({ "ITEMs": find2[i]['ITEMs'], "RESULTFORMAT": find2[i]['RESULTFORMAT'], "TYPE": find2[i]['TYPE'], "GRAPHTYPE": find2[i]['GRAPHTYPE'], "INTERSECTION": find2[i]['INTERSECTION'], "masterID": find2[i]['masterID'] })
@@ -63,7 +63,7 @@ router.post('/INSPECTION_FINAL_GET_STEP2', async (req, res) => {
   console.log("--INSPECTION_FINAL_GET_STEP2--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   let RESULTFORMATdata = "";
   let TYPEdata = "";
   let output3 = [];
@@ -78,13 +78,13 @@ router.post('/INSPECTION_FINAL_GET_STEP2', async (req, res) => {
   //-------------------------------------
   if (input[`ITEMs`] != undefined) {
 
-    let ITEMsdata = await mongodb.find(headers['server'],masterDB, ITEMs, { "masterID": input['ITEMs'], "activeid": "active_id" });
+    let ITEMsdata = await mongodb.find(headers['server'], masterDB, ITEMs, { "masterID": input['ITEMs'], "activeid": "active_id" });
     RESULTFORMATdata = ITEMsdata[0][`RESULTFORMAT`];
     TYPEdata = ITEMsdata[0][`TYPE`];
 
 
-    let MACHINEdata = await mongodb.find(headers['server'],masterDB, MACHINE, { "activeid": "active_id" });
-    let find3 = await mongodb.find(headers['server'],masterDB, METHOD, { "ITEMs": input['ITEMs'], "activeid": "active_id" });
+    let MACHINEdata = await mongodb.find(headers['server'], masterDB, MACHINE, { "activeid": "active_id" });
+    let find3 = await mongodb.find(headers['server'], masterDB, METHOD, { "ITEMs": input['ITEMs'], "activeid": "active_id" });
     if (find3.length > 0) {
       for (i = 0; i < find3.length; i++) {
         let MC = "";
@@ -98,28 +98,28 @@ router.post('/INSPECTION_FINAL_GET_STEP2', async (req, res) => {
       }
     }
 
-    let find4 = await mongodb.find(headers['server'],masterDB, LOAD, {});
+    let find4 = await mongodb.find(headers['server'], masterDB, LOAD, {});
     if (find4.length > 0) {
       for (i = 0; i < find4.length; i++) {
         output4.push({ "LOAD": find4[i]['value'], "masterID": find4[i]['value'] })
       }
     }
 
-    let find5 = await mongodb.find(headers['server'],masterDB, CORETYPE, {});
+    let find5 = await mongodb.find(headers['server'], masterDB, CORETYPE, {});
     if (find5.length > 0) {
       for (i = 0; i < find5.length; i++) {
         output5.push({ "CORETYPE": find5[i]['value'], "masterID": find5[i]['value'] })
       }
     }
 
-    let find6 = await mongodb.find(headers['server'],PATTERN, GRAPH_TABLE, {});
+    let find6 = await mongodb.find(headers['server'], PATTERN, GRAPH_TABLE, {});
     if (find6.length > 0) {
       for (i = 0; i < find6.length; i++) {
         output6.push({ "GT": find6[i]['NO'], "masterID": find6[i]['NO'] })
       }
     }
 
-    let find7 = await mongodb.find(headers['server'],masterDB, UNIT, { "TYPE": TYPEdata, "activeid": "active_id" });
+    let find7 = await mongodb.find(headers['server'], masterDB, UNIT, { "TYPE": TYPEdata, "activeid": "active_id" });
     if (find7.length > 0) {
       for (i = 0; i < find7.length; i++) {
 
@@ -127,14 +127,14 @@ router.post('/INSPECTION_FINAL_GET_STEP2', async (req, res) => {
       }
     }
 
-    let find8 = await mongodb.find(headers['server'],masterDB, FREQUENCY, {});
+    let find8 = await mongodb.find(headers['server'], masterDB, FREQUENCY, {});
     if (find8.length > 0) {
       for (i = 0; i < find8.length; i++) {
         output8.push({ "FREQUENCY": find8[i]['value'], "masterID": find8[i]['value'] })
       }
     }
 
-    let find9 = await mongodb.find(headers['server'],masterDB, CALCULATE, { "activeid": "active_id" });
+    let find9 = await mongodb.find(headers['server'], masterDB, CALCULATE, { "activeid": "active_id" });
     if (find9.length > 0) {
       console.log(find9)
       for (i = 0; i < find9.length; i++) {
@@ -142,14 +142,14 @@ router.post('/INSPECTION_FINAL_GET_STEP2', async (req, res) => {
       }
     }
 
-    let find10 = await mongodb.find(headers['server'],masterDB, SPECIFICATION, { "ITEMs": input[`ITEMs`], "activeid": "active_id" });
+    let find10 = await mongodb.find(headers['server'], masterDB, SPECIFICATION, { "ITEMs": input[`ITEMs`], "activeid": "active_id" });
     if (find10.length > 0) {
       for (i = 0; i < find10.length; i++) {
         output10.push({ "SPECIFICATION": find10[i]['SPECIFICATION'], "masterID": find10[i]['masterID'] })
       }
     }
 
-    let find11 = await mongodb.find(headers['server'],masterDB, COMMENT, { "activeid": "active_id" });
+    let find11 = await mongodb.find(headers['server'], masterDB, COMMENT, { "activeid": "active_id" });
     if (find11.length > 0) {
       for (i = 0; i < find11.length; i++) {
         output11.push({ "COMMENT": find11[i]['COMMENT'], "masterID": find11[i]['masterID'] })
@@ -169,13 +169,13 @@ router.post('/GET_FINAL_DOCUMENT', async (req, res) => {
   console.log("--GET_FINAL_DOCUMENT--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   output = { "DOCUMENT": "" }
   //-------------------------------------
   console.log(input);
 
   if (input['METHODid'] != undefined && input['ITEMs'] != undefined) {
-    let find2 = await mongodb.find(headers['server'],masterDB, METHOD, { "METHOD": `${input['METHODid']}`, "ITEMs": `${input['ITEMs']}`, "activeid": "active_id" });
+    let find2 = await mongodb.find(headers['server'], masterDB, METHOD, { "METHOD": `${input['METHODid']}`, "ITEMs": `${input['ITEMs']}`, "activeid": "active_id" });
     if (find2.length > 0) {
       output[`DOCUMENT`] = find2[0][`DOCUMENTSM`];
     }
@@ -189,13 +189,13 @@ router.post('/GET_FINAL_COMMENT', async (req, res) => {
   console.log("--GET_FINAL_COMMENT--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   output = { "COMMENT": "" }
   //-------------------------------------
   console.log(input);
 
   if (input['masterID'] != undefined) {
-    let find2 = await mongodb.find(headers['server'],masterDB, COMMENT, { "masterID": `${input['masterID']}`, "activeid": "active_id" });
+    let find2 = await mongodb.find(headers['server'], masterDB, COMMENT, { "masterID": `${input['masterID']}`, "activeid": "active_id" });
     if (find2.length > 0) {
       output[`COMMENT`] = find2[0][`COMMENT`];
     }
@@ -215,7 +215,7 @@ router.post('/GET_FINAL_CALCULATE', async (req, res) => {
   console.log(input);
 
   if (input['CALid'] != undefined) {
-    let find2 = await mongodb.find(headers['server'],masterDB, CALCULATE, { "masterID": `${input['CALid']}`, "activeid": "active_id" });
+    let find2 = await mongodb.find(headers['server'], masterDB, CALCULATE, { "masterID": `${input['CALid']}`, "activeid": "active_id" });
     if (find2.length > 0) {
 
       output = find2[0];
@@ -230,21 +230,21 @@ router.post('/GET_FINAL_MATCP_DATA', async (req, res) => {
   console.log("--GET_FINAL_MATCP_DATA--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   output = []
   //-------------------------------------
   console.log(input);
 
-  let findTYPE = await mongodb.find(headers['server'],masterDB, TYPE, {});
-  let findITEMs = await mongodb.find(headers['server'],masterDB, ITEMs, {});
-  let findCALCULATE = await mongodb.find(headers['server'],masterDB, CALCULATE, {});
-  let findMACHINE = await mongodb.find(headers['server'],masterDB, MACHINE, {});
-  let findUNIT = await mongodb.find(headers['server'],masterDB, UNIT, {});
-  let findSPECIFICATION = await mongodb.find(headers['server'],masterDB, SPECIFICATION, {});
+  let findTYPE = await mongodb.find(headers['server'], masterDB, TYPE, {});
+  let findITEMs = await mongodb.find(headers['server'], masterDB, ITEMs, {});
+  let findCALCULATE = await mongodb.find(headers['server'], masterDB, CALCULATE, {});
+  let findMACHINE = await mongodb.find(headers['server'], masterDB, MACHINE, {});
+  let findUNIT = await mongodb.find(headers['server'], masterDB, UNIT, {});
+  let findSPECIFICATION = await mongodb.find(headers['server'], masterDB, SPECIFICATION, {});
 
 
   if (input['MATCP'] != undefined) {
-    let find2 = await mongodb.find(headers['server'],PATTERN, PATTERN_01, { "CP": `${input['MATCP']}` });
+    let find2 = await mongodb.find(headers['server'], PATTERN, PATTERN_01, { "CP": `${input['MATCP']}` });
     // console.log(find2);
     if (find2.length > 0) {
       output = find2;
@@ -273,12 +273,12 @@ router.post('/INSPECTION_FINAL_GETSPEC', async (req, res) => {
   console.log("--INSPECTION_FINAL_GETSPEC--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   let output = []
   //-------------------------------------
   console.log(input);
   if (input[`ITEMs`] != undefined) {
-    let findSPECIFICATION = await mongodb.find(headers['server'],masterDB, SPECIFICATION, { "ITEMs": input[`ITEMs`] });
+    let findSPECIFICATION = await mongodb.find(headers['server'], masterDB, SPECIFICATION, { "ITEMs": input[`ITEMs`] });
     output = findSPECIFICATION;
   }
 
@@ -290,12 +290,12 @@ router.post('/FINAL_SAVE', async (req, res) => {
   console.log("--FINAL_SAVE--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   let output = {}
   //-------------------------------------
   console.log(input);
   if (input['CPorder'] != null && input['MASTERdatalist'] != null && input['editedItem_FN'] != null) {
-    let findPATTERN = await mongodb.find(headers['server'],PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
+    let findPATTERN = await mongodb.find(headers['server'], PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
     if (findPATTERN.length == 0) {
       let out = input['CPorder'];
       let newob = {
@@ -323,9 +323,9 @@ router.post('/FINAL_SAVE', async (req, res) => {
         'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
 
 
-        "SWreport": input.editedItem_FN.SWreport?? "",
-        "K1b": input.editedItem_FN.K1b?? "",
-        "K1v": input.editedItem_FN.K1v?? "",
+        "SWreport": input.editedItem_FN.SWreport ?? "",
+        "K1b": input.editedItem_FN.K1b ?? "",
+        "K1v": input.editedItem_FN.K1v ?? "",
         //--------------
         "AQL": input.editedItem_FN.AQL ?? "",
         "AQLV": input.editedItem_FN.AQLV ?? "",
@@ -345,12 +345,16 @@ router.post('/FINAL_SAVE', async (req, res) => {
 
         "CORStype": input.editedItem_FN.CORStype ?? "",
 
+
+        'GT': input.editedItem_FN.GT,
+        'GTC': input.editedItem_FN.GTC,
+
       };
 
 
       out[`FINAL`] = [newob]
 
-      let updatePATTERN = await mongodb.insertMany(headers['server'],PATTERN, PATTERN_01, [out]);
+      let updatePATTERN = await mongodb.insertMany(headers['server'], PATTERN, PATTERN_01, [out]);
       return res.json("ok");
 
     } else if ('FINAL' in findPATTERN[0]) {
@@ -395,9 +399,9 @@ router.post('/FINAL_SAVE', async (req, res) => {
           'CONVERSE': input.editedItem_FN.CONVERSE,
           'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
 
-          "SWreport": input.editedItem_FN.SWreport?? "",
-          "K1b": input.editedItem_FN.K1b?? "",
-          "K1v": input.editedItem_FN.K1v?? "",
+          "SWreport": input.editedItem_FN.SWreport ?? "",
+          "K1b": input.editedItem_FN.K1b ?? "",
+          "K1v": input.editedItem_FN.K1v ?? "",
           //--------------
           "AQL": input.editedItem_FN.AQL ?? "",
           "AQLV": input.editedItem_FN.AQLV ?? "",
@@ -414,6 +418,9 @@ router.post('/FINAL_SAVE', async (req, res) => {
           "VARI": input.editedItem_FN.VARI ?? "",
           "shape": input.editedItem_FN.shape ?? "",
           "CORStype": input.editedItem_FN.CORStype ?? "",
+
+          'GT': input.editedItem_FN.GT,
+          'GTC': input.editedItem_FN.GTC,
         };
 
 
@@ -422,7 +429,7 @@ router.post('/FINAL_SAVE', async (req, res) => {
         out = [{ 'CP': CP }, { $set: { 'FINAL': FINAL } }]
         console.log(out);
 
-        let updatePATTERN = await mongodb.update(headers['server'],PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });
+        let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });
         return res.json("ok");
 
       } else {
@@ -455,9 +462,9 @@ router.post('/FINAL_SAVE', async (req, res) => {
           'CONVERSE': input.editedItem_FN.CONVERSE,
           'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
 
-          "SWreport": input.editedItem_FN.SWreport?? "",
-          "K1b": input.editedItem_FN.K1b?? "",
-          "K1v": input.editedItem_FN.K1v?? "",
+          "SWreport": input.editedItem_FN.SWreport ?? "",
+          "K1b": input.editedItem_FN.K1b ?? "",
+          "K1v": input.editedItem_FN.K1v ?? "",
           //--------------
           "AQL": input.editedItem_FN.AQL ?? "",
           "AQLV": input.editedItem_FN.AQLV ?? "",
@@ -474,12 +481,15 @@ router.post('/FINAL_SAVE', async (req, res) => {
           "VARI": input.editedItem_FN.VARI ?? "",
           "shape": input.editedItem_FN.shape ?? "",
           "CORStype": input.editedItem_FN.CORStype ?? "",
+
+          'GT': input.editedItem_FN.GT,
+          'GTC': input.editedItem_FN.GTC,
         };
         FINAL[n] = newob;
         out = [{ 'CP': CP }, { $set: { 'FINAL': FINAL } }]
         console.log(out);
 
-        let updatePATTERN = await mongodb.update(headers['server'],PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });
+        let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });
         return res.json("ok");
 
       }
@@ -515,9 +525,9 @@ router.post('/FINAL_SAVE', async (req, res) => {
         'CONVERSE': input.editedItem_FN.CONVERSE,
         'GRAPH_TABLE_FN': input.editedItem_FN.GRAPH_TABLE_FN,
 
-        "SWreport": input.editedItem_FN.SWreport?? "",
-        "K1b": input.editedItem_FN.K1b?? "",
-        "K1v": input.editedItem_FN.K1v?? "",
+        "SWreport": input.editedItem_FN.SWreport ?? "",
+        "K1b": input.editedItem_FN.K1b ?? "",
+        "K1v": input.editedItem_FN.K1v ?? "",
         //--------------
         "AQL": input.editedItem_FN.AQL ?? "",
         "AQLV": input.editedItem_FN.AQLV ?? "",
@@ -534,9 +544,12 @@ router.post('/FINAL_SAVE', async (req, res) => {
         "VARI": input.editedItem_FN.VARI ?? "",
         "shape": input.editedItem_FN.shape ?? "",
         "CORStype": input.editedItem_FN.CORStype ?? "",
+
+        'GT': input.editedItem_FN.GT,
+        'GTC': input.editedItem_FN.GTC,
       }];
 
-      let updatePATTERN = await mongodb.update(headers['server'],PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });
+      let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });
       return res.json("ok");
     }
 
@@ -551,13 +564,13 @@ router.post('/FINAL_DELETE', async (req, res) => {
   console.log("--FINAL_DELETE--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   let output = {}
   //-------------------------------------
   // console.log(input);
   if (input['CPorder'] != null && input['MASTERdatalist'] != null && input['editedItem_FN'] != null) {
 
-    let findPATTERN = await mongodb.find(headers['server'],PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
+    let findPATTERN = await mongodb.find(headers['server'], PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
     console.log(findPATTERN);
     if (findPATTERN.length == 0) {
 
@@ -591,7 +604,7 @@ router.post('/FINAL_DELETE', async (req, res) => {
 
           out = [{ 'CP': CP }, { $set: { 'FINAL': FINAL } }]
 
-          let updatePATTERN = await mongodb.update(headers['server'],PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });
+          let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'FINAL': FINAL } });
           return res.json("ok");
           break
         }
