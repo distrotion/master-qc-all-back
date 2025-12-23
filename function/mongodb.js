@@ -31,6 +31,12 @@ function serverret(server) {
     output = 'mongodb://172.23.10.39:12016'
   } else if (server === 'BP12-KNG') {
     output = 'mongodb://172.23.10.39:12012'
+  } else if (server === 'HES-HYD') {
+    output = 'mongodb://172.23.10.80:12012'
+  } else if (server === 'HES-FP') {
+    output = 'mongodb://172.23.10.80:12010'
+  } else if (server === 'HES-ZFC') {
+    output = 'mongodb://172.23.10.80:12014'
   } 
 
   return output
