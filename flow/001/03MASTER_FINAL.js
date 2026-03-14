@@ -30,32 +30,40 @@ function makeid(length) {
   return result;
 }
 
-router.get('/FINALMASTER', async (req, res) => {
-  return res.json("READY");
-});
+const wrap = fn => async (req, res) => {
+  try {
+    await fn(req, res);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
-router.post('/GET_TYPE_FINAL', async (req, res) => {
+router.get('/FINALMASTER', wrap(async (req, res) => {
+  return res.json("READY");
+}));
+
+router.post('/GET_TYPE_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GET_TYPE_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = [];
+  let output = [];
   //-------------------------------------
   let find = await mongodb.find(headers['server'],masterDB, TYPE, { "activeid": "active_id" });
   if (find.length > 0) {
     output = find;
   }
   return res.json(output);
-});
+}));
 
-router.post('/DROP_TYPE_FINAL', async (req, res) => {
+router.post('/DROP_TYPE_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--DROP_TYPE_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   console.log(req.body);
   //-------------------------------------
   if (input.masterID != undefined) {
@@ -64,15 +72,15 @@ router.post('/DROP_TYPE_FINAL', async (req, res) => {
   }
 
   return res.json(output);
-});
+}));
 
-router.post('/GET_UNIT_FINAL', async (req, res) => {
+router.post('/GET_UNIT_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GET_UNIT_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = [];
+  let output = [];
   //-------------------------------------
   let findTYPE = await mongodb.find(headers['server'],masterDB, TYPE, {});
   let findUNIT = await mongodb.find(headers['server'],masterDB, UNIT, { "activeid": "active_id" });
@@ -80,8 +88,8 @@ router.post('/GET_UNIT_FINAL', async (req, res) => {
 
   if (findUNIT.length > 0) {
     //
-    for (i = 0; i < findUNIT.length; i++) {
-      for (j = 0; j < findTYPE.length; j++) {
+    for (let i = 0; i <findUNIT.length; i++) {
+      for (let j = 0; j <findTYPE.length; j++) {
         if (findUNIT[i][`TYPE`] === findTYPE[j][`masterID`]) {
           findUNIT[i][`TYPEname`] = findTYPE[j][`TYPE`]
           break;
@@ -92,15 +100,15 @@ router.post('/GET_UNIT_FINAL', async (req, res) => {
     output = findUNIT;
   }
   return res.json(output);
-});
+}));
 
-router.post('/DROP_UNIT_FINAL', async (req, res) => {
+router.post('/DROP_UNIT_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--DROP_UNIT_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID != undefined) {
     let DROPUNIT = await mongodb.update(headers['server'],masterDB, UNIT, { 'masterID': input.masterID }, { "$set": { "activeid": "no_active_id" } });
@@ -108,15 +116,15 @@ router.post('/DROP_UNIT_FINAL', async (req, res) => {
   }
 
   return res.json(output);
-});
+}));
 
-router.post('/GET_ITEMSget_FINAL', async (req, res) => {
+router.post('/GET_ITEMSget_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GET_ITEMSget_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = [];
+  let output = [];
   //-------------------------------------
   let findTYPE = await mongodb.find(headers['server'],masterDB, TYPE, {});
   let findITEMs = await mongodb.find(headers['server'],masterDB, ITEMs, { "activeid": "active_id" });
@@ -126,16 +134,16 @@ router.post('/GET_ITEMSget_FINAL', async (req, res) => {
 
   if (findITEMs.length > 0) {
     //
-    for (i = 0; i < findITEMs.length; i++) {
-      for (j = 0; j < findTYPE.length; j++) {
+    for (let i = 0; i <findITEMs.length; i++) {
+      for (let j = 0; j <findTYPE.length; j++) {
         if (findITEMs[i][`TYPE`] === findTYPE[j][`masterID`]) {
           findITEMs[i][`TYPEname`] = findTYPE[j][`TYPE`]
           break;
         }
       }
     }
-    for (i = 0; i < findITEMs.length; i++) {
-      for (j = 0; j < findCALCULATE.length; j++) {
+    for (let i = 0; i <findITEMs.length; i++) {
+      for (let j = 0; j <findCALCULATE.length; j++) {
         if (findITEMs[i][`CALCULATE`] === findCALCULATE[j][`masterID`]) {
           findITEMs[i][`CALCULATEname`] = findCALCULATE[j][`CALCULATE`]
           break;
@@ -147,17 +155,17 @@ router.post('/GET_ITEMSget_FINAL', async (req, res) => {
   }
  
   return res.json(output);
-});
+}));
 
 
 
-router.post('/DROP_ITEMS_FINAL', async (req, res) => {
+router.post('/DROP_ITEMS_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--DROP_ITEMS_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID != undefined) {
     let DROPUNIT = await mongodb.update(headers['server'],masterDB, ITEMs, { 'masterID': input.masterID }, { "$set": { "activeid": "no_active_id" } });
@@ -165,15 +173,15 @@ router.post('/DROP_ITEMS_FINAL', async (req, res) => {
   }
 
   return res.json(output);
-});
+}));
 
-router.post('/GET_MACHINENAMEget_FINAL', async (req, res) => {
+router.post('/GET_MACHINENAMEget_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GET_MACHINENAMEget_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = [];
+  let output = [];
   //-------------------------------------
   let findMACHINE = await mongodb.find(headers['server'],masterDB, MACHINE, { "activeid": "active_id" });
 
@@ -185,15 +193,15 @@ router.post('/GET_MACHINENAMEget_FINAL', async (req, res) => {
     output = findMACHINE;
   }
   return res.json(output);
-});
+}));
 
-router.post('/DROP_MACHINENAME_FINAL', async (req, res) => {
+router.post('/DROP_MACHINENAME_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--DROP_MACHINENAME_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID != undefined) {
     let DROPUNIT = await mongodb.update(headers['server'],masterDB, MACHINE, { 'masterID': input.masterID }, { "$set": { "activeid": "no_active_id" } });
@@ -201,15 +209,15 @@ router.post('/DROP_MACHINENAME_FINAL', async (req, res) => {
   }
 
   return res.json(output);
-});
+}));
 
-router.post('/GET_METHODEget_FINAL', async (req, res) => {
+router.post('/GET_METHODEget_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GET_METHODEget_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = [];
+  let output = [];
   //-------------------------------------
   let findTYPE = await mongodb.find(headers['server'],masterDB, TYPE, {});
   let findITEMs = await mongodb.find(headers['server'],masterDB, ITEMs, {});
@@ -219,14 +227,14 @@ router.post('/GET_METHODEget_FINAL', async (req, res) => {
 
   if (findMETHOD.length > 0) {
     //
-    for (i = 0; i < findMETHOD.length; i++) {
-      for (j = 0; j < findITEMs.length; j++) {
+    for (let i = 0; i <findMETHOD.length; i++) {
+      for (let j = 0; j <findITEMs.length; j++) {
         if (findMETHOD[i][`ITEMs`] === findITEMs[j][`masterID`]) {
           findMETHOD[i][`ITEMsname`] = findITEMs[j][`ITEMs`]
           break;
         }
       }
-      for (k = 0; k < findMACHINE.length; k++) {
+      for (let k = 0; k <findMACHINE.length; k++) {
         if (findMETHOD[i][`METHOD`] === findMACHINE[k][`masterID`]) {
           findMETHOD[i][`METHODname`] = findMACHINE[k][`METHOD`]
           break;
@@ -237,15 +245,15 @@ router.post('/GET_METHODEget_FINAL', async (req, res) => {
     output = findMETHOD;
   }
   return res.json(output);
-});
+}));
 
-router.post('/DROP_METHODE_FINAL', async (req, res) => {
+router.post('/DROP_METHODE_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--DROP_METHODE_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID != undefined) {
     let DROPUNIT = await mongodb.update(headers['server'],masterDB, METHOD, { 'masterID': input.masterID }, { "$set": { "activeid": "no_active_id" } });
@@ -253,15 +261,15 @@ router.post('/DROP_METHODE_FINAL', async (req, res) => {
   }
 
   return res.json(output);
-});
+}));
 
-router.post('/GET_SPECIALSPECget_FINAL', async (req, res) => {
+router.post('/GET_SPECIALSPECget_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GET_SPECIALSPECget_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = [];
+  let output = [];
   //-------------------------------------
 
   let findITEMs = await mongodb.find(headers['server'],masterDB, ITEMs, {});
@@ -269,8 +277,8 @@ router.post('/GET_SPECIALSPECget_FINAL', async (req, res) => {
 
   if (findSPECIALSPEC.length > 0) {
     //
-    for (i = 0; i < findSPECIALSPEC.length; i++) {
-      for (j = 0; j < findITEMs.length; j++) {
+    for (let i = 0; i <findSPECIALSPEC.length; i++) {
+      for (let j = 0; j <findITEMs.length; j++) {
         if (findSPECIALSPEC[i][`ITEMs`] === findITEMs[j][`masterID`] || '') {
           findSPECIALSPEC[i][`ITEMsname`] = findITEMs[j][`ITEMs`]
           break;
@@ -281,15 +289,15 @@ router.post('/GET_SPECIALSPECget_FINAL', async (req, res) => {
     output = findSPECIALSPEC;
   }
   return res.json(output);
-});
+}));
 
-router.post('/DROP_SPECIFICATION_FINAL', async (req, res) => {
+router.post('/DROP_SPECIFICATION_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--DROP_SPECIFICATION_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID != undefined) {
     let DROPUNIT = await mongodb.update(headers['server'],masterDB, SPECIFICATION, { 'masterID': input.masterID }, { "$set": { "activeid": "no_active_id" } });
@@ -297,25 +305,25 @@ router.post('/DROP_SPECIFICATION_FINAL', async (req, res) => {
   }
 
   return res.json(output);
-});
+}));
 
 //CALCULATE
 
-router.post('/GET_CALCULATEget_FINAL', async (req, res) => {
+router.post('/GET_CALCULATEget_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GET_CALCULATEget_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = [];
+  let output = [];
   //-------------------------------------
 
   let findSPECIALSPEC = await mongodb.find(headers['server'],masterDB, CALCULATE, { "activeid": "active_id" });
 
   // if (findSPECIALSPEC.length > 0) {
   //   //
-  //   for (i = 0; i < findSPECIALSPEC.length; i++) {
-  //     for (j = 0; j < findITEMs.length; j++) {
+  //   for (let i = 0; i <findSPECIALSPEC.length; i++) {
+  //     for (let j = 0; j <findITEMs.length; j++) {
   //       if (findSPECIALSPEC[i][`ITEMs`] === findITEMs[j][`masterID`] || '') {
   //         findSPECIALSPEC[i][`ITEMsname`] = findITEMs[j][`ITEMs`]
   //         break;
@@ -326,15 +334,15 @@ router.post('/GET_CALCULATEget_FINAL', async (req, res) => {
     output = findSPECIALSPEC;
   // }
   return res.json(output);
-});
+}));
 
-router.post('/DROP_CALCULATE_FINAL', async (req, res) => {
+router.post('/DROP_CALCULATE_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--DROP_CALCULATE_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID != undefined) {
     let DROPUNIT = await mongodb.update(headers['server'],masterDB, CALCULATE, { 'masterID': input.masterID }, { "$set": { "activeid": "no_active_id" } });
@@ -342,30 +350,30 @@ router.post('/DROP_CALCULATE_FINAL', async (req, res) => {
   }
 
   return res.json(output);
-});
+}));
 
-router.post('/GET_COMMENT_FINAL', async (req, res) => {
+router.post('/GET_COMMENT_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GET_COMMENT_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = [];
+  let output = [];
   //-------------------------------------
   let find = await mongodb.find(headers['server'],masterDB, COMMENT, { "activeid": "active_id" });
   if (find.length > 0) {
     output = find;
   }
   return res.json(output);
-});
+}));
 
-router.post('/DROP_COMMENT_FINAL', async (req, res) => {
+router.post('/DROP_COMMENT_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--DROP_COMMENT_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   console.log(req.body);
   //-------------------------------------
   if (input.masterID != undefined) {
@@ -374,15 +382,15 @@ router.post('/DROP_COMMENT_FINAL', async (req, res) => {
   }
 
   return res.json(output);
-});
+}));
 
-router.post('/GET_CALCULATECONget_FINAL', async (req, res) => {
+router.post('/GET_CALCULATECONget_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GET_CALCULATECONget_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = [];
+  let output = [];
   //-------------------------------------
 
   let findSPECIALSPEC = await mongodb.find(headers['server'],masterDB, CALCULATECON, { "activeid": "active_id" });
@@ -390,8 +398,8 @@ router.post('/GET_CALCULATECONget_FINAL', async (req, res) => {
 
   // if (findSPECIALSPEC.length > 0) {
   //   //
-  //   for (i = 0; i < findSPECIALSPEC.length; i++) {
-  //     for (j = 0; j < findITEMs.length; j++) {
+  //   for (let i = 0; i <findSPECIALSPEC.length; i++) {
+  //     for (let j = 0; j <findITEMs.length; j++) {
   //       if (findSPECIALSPEC[i][`ITEMs`] === findITEMs[j][`masterID`] || '') {
   //         findSPECIALSPEC[i][`ITEMsname`] = findITEMs[j][`ITEMs`]
   //         break;
@@ -402,15 +410,15 @@ router.post('/GET_CALCULATECONget_FINAL', async (req, res) => {
     output = findSPECIALSPEC;
   // }
   return res.json(output);
-});
+}));
 
-router.post('/DROP_CALCULATECON_FINAL', async (req, res) => {
+router.post('/DROP_CALCULATECON_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--DROP_CALCULATECON_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID != undefined) {
     let DROPUNIT = await mongodb.update(headers['server'],masterDB, CALCULATECON, { 'masterID': input.masterID }, { "$set": { "activeid": "no_active_id" } });
@@ -418,95 +426,95 @@ router.post('/DROP_CALCULATECON_FINAL', async (req, res) => {
   }
 
   return res.json(output);
-});
+}));
 
-router.post('/DROPDOWN_MASTER_FINAL', async (req, res) => {
+router.post('/DROPDOWN_MASTER_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--DROPDOWN_TYPE_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output1 = [];
-  output2 = [];
-  output3 = [];
-  output4 = [];
-  output5 = [];
-  output6 = [];
-  output7 = [];
-  output8 = [];
-  output9 = [];
+  let output1 = [];
+  let output2 = [];
+  let output3 = [];
+  let output4 = [];
+  let output5 = [];
+  let output6 = [];
+  let output7 = [];
+  let output8 = [];
+  let output9 = [];
   //-------------------------------------
   let find1 = await mongodb.find(headers['server'],masterDB, TYPE, { "activeid": "active_id" });
 
   if (find1.length > 0) {
-    for (i = 0; i < find1.length; i++) {
+    for (let i = 0; i <find1.length; i++) {
       output1.push({ "TYPE": find1[i]['TYPE'], "masterID": find1[i]['masterID'] })
     }
   }
 
   let find2 = await mongodb.find(headers['server'],masterDB, ITEMs, { "activeid": "active_id" });
   if (find2.length > 0) {
-    for (i = 0; i < find2.length; i++) {
+    for (let i = 0; i <find2.length; i++) {
       output2.push({ "ITEMs": find2[i]['ITEMs'], "masterID": find2[i]['masterID'] })
     }
   }
 
   let find3 = await mongodb.find(headers['server'],masterDB, MACHINE, { "activeid": "active_id" });
   if (find3.length > 0) {
-    for (i = 0; i < find3.length; i++) {
+    for (let i = 0; i <find3.length; i++) {
       output3.push({ "METHOD": find3[i]['METHOD'], "masterID": find3[i]['masterID'] })
     }
   }
 
   let find4 = await mongodb.find(headers['server'],masterDB, RESULTFORMAT, {});
   if (find4.length > 0) {
-    for (i = 0; i < find4.length; i++) {
+    for (let i = 0; i <find4.length; i++) {
       output4.push({ "RESULTFORMAT": find4[i]['value'] })
     }
   }
   let find5 = await mongodb.find(headers['server'],masterDB, GRAPHTYPE, {});
   if (find5.length > 0) {
-    for (i = 0; i < find5.length; i++) {
+    for (let i = 0; i <find5.length; i++) {
       output5.push({ "GRAPHTYPE": find5[i]['value'] })
     }
   }
   let find6 = await mongodb.find(headers['server'],masterDB, INSTRUMENTS, {});
   if (find6.length > 0) {
-    for (i = 0; i < find6.length; i++) {
+    for (let i = 0; i <find6.length; i++) {
       output6.push({ "INSTRUMENTS": find6[i]['value'] })
     }
   }
   let find7 = await mongodb.find(headers['server'],masterDB, CALCULATE, {"activeid": "active_id"});
   if (find7.length > 0) {
-    for (i = 0; i < find7.length; i++) {
+    for (let i = 0; i <find7.length; i++) {
       output7.push({ "CALCULATE": find7[i]['CALCULATE'], "masterID": find7[i]['masterID']  })
     }
   }
 
   let find8 = await mongodb.find(headers['server'],masterDB, UNIT, {"activeid": "active_id"});
   if (find8.length > 0) {
-    for (i = 0; i < find8.length; i++) {
+    for (let i = 0; i <find8.length; i++) {
       output8.push({ "UNIT": find8[i]['UNIT'], "masterID": find8[i]['masterID']  })
     }
   }
 
   let find9 = await mongodb.find(headers['server'],masterDB, CALCULATECON, {"activeid": "active_id"});
   if (find9.length > 0) {
-    for (i = 0; i < find9.length; i++) {
-      output7.push({ "CALCULATECON": find9[i]['CALCULATE'], "masterID": find9[i]['masterID']  })
+    for (let i = 0; i <find9.length; i++) {
+      output9.push({ "CALCULATECON": find9[i]['CALCULATE'], "masterID": find9[i]['masterID']  })
     }
   }
   return res.json({ "TYPE": output1, "ITEMS": output2, "METHOD": output3, "RESULTFORMAT": output4, "GRAPHTYPE": output5, "INSTRUMENTS": output6, "CALCULATE": output7 , "UNIT": output8 , "CALCULATECON": output9 });
-});
+}));
 //---------------------------------------EDIT---------------------------------------
 
-router.post('/EDIT_TYPE_FINAL', async (req, res) => {
+router.post('/EDIT_TYPE_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--EDIT_TYPE_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID !== undefined) {
 
@@ -550,15 +558,15 @@ router.post('/EDIT_TYPE_FINAL', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
-router.post('/EDIT_UNIT_FINAL', async (req, res) => {
+router.post('/EDIT_UNIT_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--EDIT_UNIT_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID !== undefined) {
 
@@ -602,15 +610,15 @@ router.post('/EDIT_UNIT_FINAL', async (req, res) => {
   }
 
   return res.json(output);
-});
+}));
 
-router.post('/EDIT_ITEMS_FINAL', async (req, res) => {
+router.post('/EDIT_ITEMS_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--EDIT_ITEMS_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID !== undefined) {
 
@@ -655,15 +663,15 @@ router.post('/EDIT_ITEMS_FINAL', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
-router.post('/EDIT_MACHINENAME_FINAL', async (req, res) => {
+router.post('/EDIT_MACHINENAME_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--EDIT_MACHINENAME_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   console.log(input);
   //-------------------------------------
   if (input.masterID !== undefined) {
@@ -709,15 +717,15 @@ router.post('/EDIT_MACHINENAME_FINAL', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
-router.post('/EDIT_METHODE_FINAL', async (req, res) => {
+router.post('/EDIT_METHODE_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--EDIT_METHODE_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID !== undefined) {
 
@@ -749,15 +757,15 @@ router.post('/EDIT_METHODE_FINAL', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
-router.post('/EDIT_SPECIFICATION_FINAL', async (req, res) => {
+router.post('/EDIT_SPECIFICATION_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--EDIT_SPECIFICATION_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   console.log(input);
   //-------------------------------------
   if (input.masterID !== undefined) {
@@ -803,15 +811,15 @@ router.post('/EDIT_SPECIFICATION_FINAL', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
-router.post('/EDIT_CALCULATE_FINAL', async (req, res) => {
+router.post('/EDIT_CALCULATE_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--EDIT_CALCULATE_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID !== undefined) {
 
@@ -858,16 +866,16 @@ router.post('/EDIT_CALCULATE_FINAL', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
 
-router.post('/EDIT_COMMENT_FINAL', async (req, res) => {
+router.post('/EDIT_COMMENT_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--EDIT_COMMENT_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID !== undefined) {
 
@@ -911,15 +919,15 @@ router.post('/EDIT_COMMENT_FINAL', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
-router.post('/EDIT_CALCULATECON_FINAL', async (req, res) => {
+router.post('/EDIT_CALCULATECON_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--EDIT_CALCULATECON_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID !== undefined) {
 
@@ -966,16 +974,16 @@ router.post('/EDIT_CALCULATECON_FINAL', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
 
-router.post('/GET_UNIT_ITEM', async (req, res) => {
+router.post('/GET_UNIT_ITEM', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GET_UNIT_ITEM--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = [];
+  let output = [];
 
   //-------------------------------------
   if (input['ITEMs'] !== undefined) {
@@ -996,16 +1004,16 @@ router.post('/GET_UNIT_ITEM', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
 
-router.post('/EDIT_DESIMAL_FINAL', async (req, res) => {
+router.post('/EDIT_DESIMAL_FINAL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--EDIT_DESIMAL_FINAL--");
   let input = req.body;
   let headers = req.headers;
    //-------------------------------------
-  output = "NOK";
+  let output = "NOK";
   //-------------------------------------
   if (input.masterID !== undefined) {
 
@@ -1050,7 +1058,7 @@ router.post('/EDIT_DESIMAL_FINAL', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
 
 module.exports = router;

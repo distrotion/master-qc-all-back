@@ -25,24 +25,32 @@ let CORETYPE = "CORETYPE";
 let FREQUENCY = "FREQUENCY";
 let PATTERN_01 = "PATTERN_01";
 
+const wrap = fn => async (req, res) => {
+  try {
+    await fn(req, res);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 
-router.get('/FINALMASTER', async (req, res) => {
+
+router.get('/FINALMASTER', wrap(async (req, res) => {
   return res.json("READY");
-});
+}));
 
-router.post('/INSPECTION_FINAL_GET_STEP1', async (req, res) => {
+router.post('/INSPECTION_FINAL_GET_STEP1', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--INSPECTION_FINAL_GET_STEP1--");
   let input = req.body;
   let headers = req.headers;
   //-------------------------------------
-  output2 = [];
+  let output2 = [];
   //-------------------------------------
 
   let find2 = await mongodb.find(headers['server'], masterDB, ITEMs, { "activeid": "active_id" });
   if (find2.length > 0) {
-    for (i = 0; i < find2.length; i++) {
+    for (let i = 0; i < find2.length; i++) {
       output2.push({ "ITEMs": find2[i]['ITEMs'], "RESULTFORMAT": find2[i]['RESULTFORMAT'], "TYPE": find2[i]['TYPE'], "GRAPHTYPE": find2[i]['GRAPHTYPE'], "INTERSECTION": find2[i]['INTERSECTION'], "masterID": find2[i]['masterID'] })
     }
   }
@@ -52,14 +60,9 @@ router.post('/INSPECTION_FINAL_GET_STEP1', async (req, res) => {
 
 
   return res.json({ "ITEMs": output2 });
-});
+}));
 
-router.get('/FINALMASTER', async (req, res) => {
-  return res.json("READY");
-});
-
-
-router.post('/GET_MATCPLIST', async (req, res) => {
+router.post('/GET_MATCPLIST', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GET_MATCPLIST--");
   let input = req.body;
@@ -98,10 +101,10 @@ router.post('/GET_MATCPLIST', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
 
-router.post('/graph_list', async (req, res) => {
+router.post('/graph_list', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--graph_list--");
   let input = req.body;
@@ -118,9 +121,9 @@ router.post('/graph_list', async (req, res) => {
   // console.log(output);
 
   return res.json(output);
-});
+}));
 
-router.post('/NEW_GRAPH', async (req, res) => {
+router.post('/NEW_GRAPH', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--NEW_GRAPH--");
   let input = req.body;
@@ -199,10 +202,10 @@ router.post('/NEW_GRAPH', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
 
-router.post('/NEW_GRAPH_CONTROL', async (req, res) => {
+router.post('/NEW_GRAPH_CONTROL', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--NEW_GRAPH_CONTROL--");
   let input = req.body;
@@ -366,10 +369,10 @@ router.post('/NEW_GRAPH_CONTROL', async (req, res) => {
 
 
   return res.json(output);
-});
+}));
 
 
-router.post('/GRAPHcontrol_list', async (req, res) => {
+router.post('/GRAPHcontrol_list', wrap(async (req, res) => {
   //-------------------------------------
   console.log("--GRAPHcontrol_list--");
   let input = req.body;
@@ -386,7 +389,7 @@ router.post('/GRAPHcontrol_list', async (req, res) => {
   // console.log(output);
 
   return res.json(output);
-});
+}));
 
 
 module.exports = router;
