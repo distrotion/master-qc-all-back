@@ -3,7 +3,6 @@ const router = express.Router();
 var mongodb = require('../../function/mongodb');
 var mongodbs = require('../../function/mongodbs');
 var mssql = require('../../function/mssql');
-var request = require('request');
 
 let masterDB_FN = "master_FN";
 let masterDB_IC = "master_IC";

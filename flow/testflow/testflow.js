@@ -110,23 +110,6 @@ router.get('/fntest2', async (req, res) => {
   res.send(`${out}`)
 })
 
-router.get('/posthttptest', async (req, res) => {
-  output = '';
-   request.post(
-        'http://172.101.1.19/API_QcReport/ZBAPI_getZPPIN013_OUT',
-        { json: input },
-         function  (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                // console.log(body2);
-                // if (body2 === 'OK') {
-                     output = body;
-                // }
-            }
-        }
-    );
-  return res.send(`${output}`)
-});
-
 
 router.get('/postaxiostest', async (req, res) => {
   output = '';

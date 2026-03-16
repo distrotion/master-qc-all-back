@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 var mongodb = require('../../function/mongodb');
 var mssql = require('../../function/mssql');
-var request = require('request');
 
 let masterDB = "master_IP";
 let TYPE = "TYPE";
