@@ -6,11 +6,11 @@ const SERVER_URLS = {
   'GW-GAS':   'mongodb://172.23.10.71:27017',
   'HES-ISN':  'mongodb://172.23.10.70:27017',
   'HES-GAS':  'mongodb://172.23.10.73:27017',
-  'HES-PH':   'mongodb://172.23.10.39:12020',
-  'HES-PAL':  'mongodb://172.23.10.39:12022',
-  'BP12-PAL': 'mongodb://172.23.10.39:12014',
-  'BP12-PVD': 'mongodb://172.23.10.39:12016',
-  'BP12-KNG': 'mongodb://172.23.10.39:12012',
+  'HES-PH':   'mongodb://172.23.10.139:12020',
+  'HES-PAL':  'mongodb://172.23.10.139:12022',
+  'BP12-PAL': 'mongodb://172.23.10.139:12014',
+  'BP12-PVD': 'mongodb://172.23.10.139:12016',
+  'BP12-KNG': 'mongodb://172.23.10.139:12012',
   'HES-HYD':  'mongodb://172.23.10.80:12012', // PH
   'HES-FP':   'mongodb://172.23.10.80:12010', // GAS
   'HES-ZIF':  'mongodb://172.23.10.80:12014', // PAL
