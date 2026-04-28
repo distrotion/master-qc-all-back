@@ -24,7 +24,11 @@ async function getClient(server) {
   if (!url) throw new Error(`Unknown server: ${server}`);
 
   if (!clients[server]) {
-    const client = new MongoClient(url);
+    const client = new MongoClient(url, {
+      connectTimeoutMS: 3000,
+      serverSelectionTimeoutMS: 3000,
+      socketTimeoutMS: 5000,
+    });
     try {
       await client.connect();
       clients[server] = client;
@@ -88,4 +92,30 @@ exports.findSAP = async (server, db_input, collection_input, input) => {
   const client = await getClient(server);
   const collection = client.db(db_input).collection(collection_input);
   return await collection.find(input).limit(1000).sort({ "_id": -1 }).toArray();
+};
+
+exports.findAllServers = (db_input, collection_input, input) => {
+  const servers = Object.keys(SERVER_URLS);
+  return new Promise((resolve) => {
+    let pending = servers.length;
+    let found = false;
+
+    const done = () => {
+      pending--;
+      if (!found && pending === 0) resolve({ data: [], _server: null });
+    };
+
+    for (const server of servers) {
+      getClient(server)
+        .then(client => client.db(db_input).collection(collection_input).find(input).limit(0).sort({ "_id": -1 }).toArray())
+        .then(docs => {
+          if (!found && docs.length > 0) {
+            found = true;
+            resolve({ data: docs, _server: server });
+          }
+          done();
+        })
+        .catch(() => done());
+    }
+  });
 };

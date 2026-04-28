@@ -38,7 +38,7 @@ router.post('/INSPECTION_INCOMMING_GET_STEP1', async (req, res) => {
   output2 = [];
   //-------------------------------------
 
-  let find2 = await mongodb.find(headers['server'],masterDB, ITEMs, { "activeid": "active_id" });
+  let find2 = await mongodb.find(headers['server'], masterDB, ITEMs, { "activeid": "active_id" });
   if (find2.length > 0) {
     for (i = 0; i < find2.length; i++) {
       output2.push({ "ITEMs": find2[i]['ITEMs'], "RESULTFORMAT": find2[i]['RESULTFORMAT'], "TYPE": find2[i]['TYPE'], "GRAPHTYPE": find2[i]['GRAPHTYPE'], "INTERSECTION": find2[i]['INTERSECTION'], "masterID": find2[i]['masterID'] })
@@ -57,11 +57,11 @@ router.get('/INCOMMINGMASTER', async (req, res) => {
 });
 
 router.post('/INSPECTION_INCOMMING_GET_STEP2', async (req, res) => {
- 
+
   console.log("--INSPECTION_INCOMMING_GET_STEP2--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   let RESULTFORMATdata = "";
   let TYPEdata = "";
   let output3 = [];
@@ -76,13 +76,13 @@ router.post('/INSPECTION_INCOMMING_GET_STEP2', async (req, res) => {
   //-------------------------------------
   if (input[`ITEMs`] != undefined) {
 
-    let ITEMsdata = await mongodb.find(headers['server'],masterDB, ITEMs, { "masterID": input['ITEMs'], "activeid": "active_id" });
+    let ITEMsdata = await mongodb.find(headers['server'], masterDB, ITEMs, { "masterID": input['ITEMs'], "activeid": "active_id" });
     RESULTFORMATdata = ITEMsdata[0][`RESULTFORMAT`];
     TYPEdata = ITEMsdata[0][`TYPE`];
 
 
-    let MACHINEdata = await mongodb.find(headers['server'],masterDB, MACHINE, { "activeid": "active_id" });
-    let find3 = await mongodb.find(headers['server'],masterDB, METHOD, { "ITEMs": input['ITEMs'], "activeid": "active_id" });
+    let MACHINEdata = await mongodb.find(headers['server'], masterDB, MACHINE, { "activeid": "active_id" });
+    let find3 = await mongodb.find(headers['server'], masterDB, METHOD, { "ITEMs": input['ITEMs'], "activeid": "active_id" });
     if (find3.length > 0) {
       for (i = 0; i < find3.length; i++) {
         let MC = "";
@@ -96,28 +96,28 @@ router.post('/INSPECTION_INCOMMING_GET_STEP2', async (req, res) => {
       }
     }
 
-    let find4 = await mongodb.find(headers['server'],masterDB, LOAD, {});
+    let find4 = await mongodb.find(headers['server'], masterDB, LOAD, {});
     if (find4.length > 0) {
       for (i = 0; i < find4.length; i++) {
         output4.push({ "LOAD": find4[i]['value'], "masterID": find4[i]['value'] })
       }
     }
 
-    let find5 = await mongodb.find(headers['server'],masterDB, CORETYPE, {});
+    let find5 = await mongodb.find(headers['server'], masterDB, CORETYPE, {});
     if (find5.length > 0) {
       for (i = 0; i < find5.length; i++) {
         output5.push({ "CORETYPE": find5[i]['value'], "masterID": find5[i]['value'] })
       }
     }
 
-    let find6 = await mongodb.find(headers['server'],PATTERN, GRAPH_TABLE, {});
+    let find6 = await mongodb.find(headers['server'], PATTERN, GRAPH_TABLE, {});
     if (find6.length > 0) {
       for (i = 0; i < find6.length; i++) {
         output6.push({ "GT": find6[i]['NO'], "masterID": find6[i]['NO'] })
       }
     }
 
-    let find7 = await mongodb.find(headers['server'],masterDB, UNIT, { "TYPE": TYPEdata, "activeid": "active_id" });
+    let find7 = await mongodb.find(headers['server'], masterDB, UNIT, { "TYPE": TYPEdata, "activeid": "active_id" });
     if (find7.length > 0) {
       for (i = 0; i < find7.length; i++) {
 
@@ -125,14 +125,14 @@ router.post('/INSPECTION_INCOMMING_GET_STEP2', async (req, res) => {
       }
     }
 
-    let find8 = await mongodb.find(headers['server'],masterDB, FREQUENCY, {});
+    let find8 = await mongodb.find(headers['server'], masterDB, FREQUENCY, {});
     if (find8.length > 0) {
       for (i = 0; i < find8.length; i++) {
         output8.push({ "FREQUENCY": find8[i]['value'], "masterID": find8[i]['value'] })
       }
     }
 
-    let find9 = await mongodb.find(headers['server'],masterDB, CALCULATE, { "activeid": "active_id" });
+    let find9 = await mongodb.find(headers['server'], masterDB, CALCULATE, { "activeid": "active_id" });
     if (find9.length > 0) {
       console.log(find9)
       for (i = 0; i < find9.length; i++) {
@@ -140,14 +140,14 @@ router.post('/INSPECTION_INCOMMING_GET_STEP2', async (req, res) => {
       }
     }
 
-    let find10 = await mongodb.find(headers['server'],masterDB, SPECIFICATION, { "ITEMs": input[`ITEMs`], "activeid": "active_id" });
+    let find10 = await mongodb.find(headers['server'], masterDB, SPECIFICATION, { "ITEMs": input[`ITEMs`], "activeid": "active_id" });
     if (find10.length > 0) {
       for (i = 0; i < find10.length; i++) {
         output10.push({ "SPECIFICATION": find10[i]['SPECIFICATION'], "masterID": find10[i]['masterID'] })
       }
     }
 
-    let find11 = await mongodb.find(headers['server'],masterDB, COMMENT, { "activeid": "active_id" });
+    let find11 = await mongodb.find(headers['server'], masterDB, COMMENT, { "activeid": "active_id" });
     if (find11.length > 0) {
       for (i = 0; i < find11.length; i++) {
         output11.push({ "COMMENT": find11[i]['COMMENT'], "masterID": find11[i]['masterID'] })
@@ -167,13 +167,13 @@ router.post('/GET_INCOMMING_DOCUMENT', async (req, res) => {
   console.log("--GET_INCOMMING_DOCUMENT--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   output = { "DOCUMENT": "" }
   //-------------------------------------
   console.log(input);
 
   if (input['METHODid'] != undefined && input['ITEMs'] != undefined) {
-    let find2 = await mongodb.find(headers['server'],masterDB, METHOD, { "METHOD": `${input['METHODid']}`, "ITEMs": `${input['ITEMs']}`, "activeid": "active_id" });
+    let find2 = await mongodb.find(headers['server'], masterDB, METHOD, { "METHOD": `${input['METHODid']}`, "ITEMs": `${input['ITEMs']}`, "activeid": "active_id" });
     if (find2.length > 0) {
       output[`DOCUMENT`] = find2[0][`DOCUMENTSM`];
     }
@@ -187,13 +187,13 @@ router.post('/GET_INCOMMING_COMMENT', async (req, res) => {
   console.log("--GET_INCOMMING_COMMENT--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   output = { "COMMENT": "" }
   //-------------------------------------
   console.log(input);
 
   if (input['masterID'] != undefined) {
-    let find2 = await mongodb.find(headers['server'],masterDB, COMMENT, { "masterID": `${input['masterID']}`, "activeid": "active_id" });
+    let find2 = await mongodb.find(headers['server'], masterDB, COMMENT, { "masterID": `${input['masterID']}`, "activeid": "active_id" });
     if (find2.length > 0) {
       output[`COMMENT`] = find2[0][`COMMENT`];
     }
@@ -207,13 +207,13 @@ router.post('/GET_INCOMMING_CALCULATE', async (req, res) => {
   console.log("--GET_INCOMMING_CALCULATE--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   output = {}
   //-------------------------------------
   console.log(input);
 
   if (input['CALid'] != undefined) {
-    let find2 = await mongodb.find(headers['server'],masterDB, CALCULATE, { "masterID": `${input['CALid']}`, "activeid": "active_id" });
+    let find2 = await mongodb.find(headers['server'], masterDB, CALCULATE, { "masterID": `${input['CALid']}`, "activeid": "active_id" });
     if (find2.length > 0) {
 
       output = find2[0];
@@ -228,21 +228,21 @@ router.post('/GET_INCOMMING_MATCP_DATA', async (req, res) => {
   console.log("--GET_INCOMMING_MATCP_DATA--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   output = []
   //-------------------------------------
   console.log(input);
 
-  let findTYPE = await mongodb.find(headers['server'],masterDB, TYPE, {});
-  let findITEMs = await mongodb.find(headers['server'],masterDB, ITEMs, {});
-  let findCALCULATE = await mongodb.find(headers['server'],masterDB, CALCULATE, {});
-  let findMACHINE = await mongodb.find(headers['server'],masterDB, MACHINE, {});
-  let findUNIT = await mongodb.find(headers['server'],masterDB, UNIT, {});
-  let findSPECIFICATION = await mongodb.find(headers['server'],masterDB, SPECIFICATION, {});
+  let findTYPE = await mongodb.find(headers['server'], masterDB, TYPE, {});
+  let findITEMs = await mongodb.find(headers['server'], masterDB, ITEMs, {});
+  let findCALCULATE = await mongodb.find(headers['server'], masterDB, CALCULATE, {});
+  let findMACHINE = await mongodb.find(headers['server'], masterDB, MACHINE, {});
+  let findUNIT = await mongodb.find(headers['server'], masterDB, UNIT, {});
+  let findSPECIFICATION = await mongodb.find(headers['server'], masterDB, SPECIFICATION, {});
 
 
   if (input['MATCP'] != undefined) {
-    let find2 = await mongodb.find(headers['server'],PATTERN, PATTERN_01, { "CP": `${input['MATCP']}` });
+    let find2 = await mongodb.find(headers['server'], PATTERN, PATTERN_01, { "CP": `${input['MATCP']}` });
     // console.log(find2);
     if (find2.length > 0) {
       output = find2;
@@ -271,12 +271,12 @@ router.post('/INSPECTION_INCOMMING_GETSPEC', async (req, res) => {
   console.log("--INSPECTION_INCOMMING_GETSPEC--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   let output = []
   //-------------------------------------
   console.log(input);
   if (input[`ITEMs`] != undefined) {
-    let findSPECIFICATION = await mongodb.find(headers['server'],masterDB, SPECIFICATION, { "ITEMs": input[`ITEMs`] });
+    let findSPECIFICATION = await mongodb.find(headers['server'], masterDB, SPECIFICATION, { "ITEMs": input[`ITEMs`] });
     output = findSPECIFICATION;
   }
 
@@ -288,14 +288,14 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
   console.log("--INCOMMING_SAVE--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   let output = {}
   //-------------------------------------
   console.log(input);
   console.log(headers['server']);
   //headers['server']
   if (input['CPorder'] != null && input['MASTERdatalist'] != null && input['editedItem_IC'] != null) {
-    let findPATTERN = await mongodb.find(headers['server'],PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
+    let findPATTERN = await mongodb.find(headers['server'], PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
 
     if (findPATTERN.length == 0) {
 
@@ -325,9 +325,9 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
 
 
-        "SWreport": input.editedItem_IC.SWreport?? "",
-        "K1b": input.editedItem_IC.K1b?? "",
-        "K1v": input.editedItem_IC.K1v?? "",
+        "SWreport": input.editedItem_IC.SWreport ?? "",
+        "K1b": input.editedItem_IC.K1b ?? "",
+        "K1v": input.editedItem_IC.K1v ?? "",
         //--------------
         "AQL": input.editedItem_IC.AQL ?? "",
         "AQLV": input.editedItem_IC.AQLV ?? "",
@@ -342,7 +342,7 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
 
       out[`INCOMMING`] = [newob]
 
-      let updatePATTERN = await mongodb.insertMany(headers['server'],PATTERN, PATTERN_01, [out]);
+      let updatePATTERN = await mongodb.insertMany(headers['server'], PATTERN, PATTERN_01, [out]);
       return res.json("ok");
 
     } else if ('INCOMMING' in findPATTERN[0]) {
@@ -387,9 +387,9 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
           'CONVERSE': input.editedItem_IC.CONVERSE,
           'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
 
-          "SWreport": input.editedItem_IC.SWreport?? "",
-          "K1b": input.editedItem_IC.K1b?? "",
-          "K1v": input.editedItem_IC.K1v?? "",
+          "SWreport": input.editedItem_IC.SWreport ?? "",
+          "K1b": input.editedItem_IC.K1b ?? "",
+          "K1v": input.editedItem_IC.K1v ?? "",
           //--------------
           "AQL": input.editedItem_IC.AQL ?? "",
           "AQLV": input.editedItem_IC.AQLV ?? "",
@@ -406,11 +406,11 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         out = [{ 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } }]
         console.log(out);
 
-        let updatePATTERN = await mongodb.update(headers['server'],PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
+        let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
         return res.json("ok");
 
       } else {
-      
+
         let input2 = findPATTERN;
         let out = input['CPorder'];
         let CP = input2[0].CP;
@@ -440,9 +440,9 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
           'CONVERSE': input.editedItem_IC.CONVERSE,
           'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
 
-          "SWreport": input.editedItem_IC.SWreport?? "",
-          "K1b": input.editedItem_IC.K1b?? "",
-          "K1v": input.editedItem_IC.K1v?? "",
+          "SWreport": input.editedItem_IC.SWreport ?? "",
+          "K1b": input.editedItem_IC.K1b ?? "",
+          "K1v": input.editedItem_IC.K1v ?? "",
           //--------------
           "AQL": input.editedItem_IC.AQL ?? "",
           "AQLV": input.editedItem_IC.AQLV ?? "",
@@ -456,12 +456,12 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         out = [{ 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } }]
         console.log(out);
 
-        let updatePATTERN = await mongodb.update(headers['server'],PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
+        let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
         return res.json("ok");
 
       }
 
-    // } else if (('INCOMMING' in findPATTERN[0])) {
+      // } else if (('INCOMMING' in findPATTERN[0])) {
     } else {
 
       console.log("findPATTERN--2");
@@ -494,9 +494,9 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         'CONVERSE': input.editedItem_IC.CONVERSE,
         'GRAPH_TABLE_IC': input.editedItem_IC.GRAPH_TABLE_IC,
 
-        "SWreport": input.editedItem_IC.SWreport?? "",
-        "K1b": input.editedItem_IC.K1b?? "",
-        "K1v": input.editedItem_IC.K1v?? "",
+        "SWreport": input.editedItem_IC.SWreport ?? "",
+        "K1b": input.editedItem_IC.K1b ?? "",
+        "K1v": input.editedItem_IC.K1v ?? "",
         //--------------
         "AQL": input.editedItem_IC.AQL ?? "",
         "AQLV": input.editedItem_IC.AQLV ?? "",
@@ -507,7 +507,7 @@ router.post('/INCOMMING_SAVE', async (req, res) => {
         "SUMDATATEXT": input.editedItem_IC.SUMDATATEXT ?? "",
       }];
 
-      let updatePATTERN = await mongodb.update(headers['server'],PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
+      let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
       return res.json("ok");
     }
 
@@ -522,13 +522,13 @@ router.post('/INCOMMING_DELETE', async (req, res) => {
   console.log("--INCOMMING_DELETE--");
   let input = req.body;
   let headers = req.headers;
-   //-------------------------------------
+  //-------------------------------------
   let output = {}
   //-------------------------------------
   // console.log(input);
   if (input['CPorder'] != null && input['MASTERdatalist'] != null && input['editedItem_IC'] != null) {
 
-    let findPATTERN = await mongodb.find(headers['server'],PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
+    let findPATTERN = await mongodb.find(headers['server'], PATTERN, PATTERN_01, { "CP": input[`CPorder`]['CP'] });
     console.log(findPATTERN);
     if (findPATTERN.length == 0) {
 
@@ -562,7 +562,7 @@ router.post('/INCOMMING_DELETE', async (req, res) => {
 
           out = [{ 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } }]
 
-          let updatePATTERN = await mongodb.update(headers['server'],PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
+          let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': CP }, { $set: { 'INCOMMING': INCOMMING } });
           return res.json("ok");
           break
         }
@@ -580,9 +580,30 @@ router.post('/INCOMMING_DELETE', async (req, res) => {
   return res.json("output");
 });
 
+router.get('/INCOMMINGMASTER', async (req, res) => {
+  return res.json("READY");
+});
+
+router.post('/getpatternall', async (req, res) => {
+  //-------------------------------------
+  console.log("--getpatternall--");
+  let input = req.body;
+  console.log(input);
+  let headers = req.headers;
+  output2 = {};
+  //-------------------------------------
+
+  if (input['CP'] !== undefined) {
+    let { data: findPATTERN, _server: serverPATTERN } = await mongodb.findAllServers(PATTERN, PATTERN_01, { "CP": input['CP'] });
+    if (findPATTERN.length > 0) {
+      let find2 = await mongodb.find(serverPATTERN, masterDB, ITEMs, { "activeid": "active_id" });
+      output2 = { "PATTERN": findPATTERN, "_server": serverPATTERN , "master": find2 ,  };
+    }
+  }
 
 
-
+  return res.json(output2);
+});
 
 
 
