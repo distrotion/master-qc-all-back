@@ -597,8 +597,44 @@ router.post('/getpatternall', async (req, res) => {
     let { data: findPATTERN, _server: serverPATTERN } = await mongodb.findAllServers(PATTERN, PATTERN_01, { "CP": input['CP'] });
     if (findPATTERN.length > 0) {
       let find2 = await mongodb.find(serverPATTERN, masterDB, ITEMs, { "activeid": "active_id" });
-      output2 = { "PATTERN": findPATTERN, "_server": serverPATTERN , "master": find2 ,  };
+      output2 = { "PATTERN": findPATTERN, "_server": serverPATTERN, "master": find2, };
     }
+  }
+
+
+  return res.json(output2);
+});
+
+
+router.post('/updatenomasspass', async (req, res) => {
+  //-------------------------------------
+  console.log("--updatenomasspass--");
+  let input = req.body;
+  console.log(input);
+  let headers = req.headers;
+  output2 = {};
+  //-------------------------------------
+
+  if (input['CP'] !== undefined && headers['server'] != undefined) {
+    let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': input['CP'] }, { $set: { 'massstatus': 'NOPASS' } });
+  }
+
+
+  return res.json(output2);
+});
+
+
+router.post('/statusnomasspass', async (req, res) => {
+  //-------------------------------------
+  console.log("--statusnomasspass--");
+  let input = req.body;
+  console.log(input);
+  let headers = req.headers;
+  output2 = {};
+  //-------------------------------------
+
+  if (input['CP'] !== undefined && headers['server'] != undefined && input['mass'] != undefined && input['massstatus'] != undefined) {
+    let updatePATTERN = await mongodb.update(headers['server'], PATTERN, PATTERN_01, { 'CP': input['CP'] }, { $set: { 'mass': input['mass'] ,'massstatus': input['massstatus'] } });
   }
 
 
